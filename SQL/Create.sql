@@ -1,3 +1,5 @@
+DROP DATABASE IF exists `cmo`;
+
 CREATE DATABASE CMO;
 
 USE CMO;
@@ -5,14 +7,16 @@ USE CMO;
 CREATE TABLE OS(
 	id_os INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	id_cliente INTEGER NOT NULL,
+    id_enderecobusca INTEGER,
+	id_enderecoentrega INTEGER,
 	id_tipo_atendimento INTEGER NOT NULL,
-	id_observacao INTEGER NOT NULL,
+	id_observacao INTEGER,
 	id_status INTEGER NOT NULL,
 	id_filial INTEGER NOT NULL,
 	id_plano_pagamento INTEGER NOT NULL,
-	id_fechador INTEGER NOT NULL,
-	id_exclusao INTEGER NOT NULL,
-	id_acessorio INTEGER NOT NULL,
+	id_fechamento INTEGER,
+	id_exclusao INTEGER,
+	id_acessorio INTEGER,
 	descricao_problema VARCHAR(200) NOT NULL,
 	descricao_OS VARCHAR(200) NOT NULL,
 	data_abertura DATE NOT NULL,
@@ -29,8 +33,10 @@ CREATE TABLE OS(
 
 CREATE TABLE Cliente(
     id_cliente INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    id_status INT NOT NULL,
-    id_filial INT NOT NULL,
+    id_status INT,
+    id_endereco INT NOT NULL,
+    id_fone INT NOT NULL,
+    id_email INT NOT NULL,
     nome_cliente VARCHAR(200) NOT NULL,
     nome_fonetico VARCHAR(200),
     data_cadastro DATE NOT NULL,
@@ -38,6 +44,11 @@ CREATE TABLE Cliente(
     cnpj VARCHAR(14),
     inscr_municipal INT,
     data_atualizacao DATE NOT NULL
+);
+
+CREATE TABLE Clientefilial(
+	id_cliente INT NOT NULL,
+    id_filial INT NOT NULL
 );
 
 CREATE TABLE Status (
@@ -48,8 +59,8 @@ CREATE TABLE Status (
 
 CREATE TABLE Endereco (
     id_endereco INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    id_cliente INT NOT NULL,
     tipo_endereco VARCHAR(100) NOT NULL,
+    nome_endereco VARCHAR(100) NOT NULL,
     endereco VARCHAR(1000) NOT NULL,
     complemento VARCHAR(100),
     bairro VARCHAR(100) NOT NULL,
@@ -59,18 +70,27 @@ CREATE TABLE Endereco (
     observacao VARCHAR(100)
 );
 
+CREATE TABLE EnderecoBusca(
+	id_enderecobusca INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    id_endereco	INT NOT NULL
+);
+
+CREATE TABLE EnderecoEntrega(
+	id_enderecoentrega INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    id_endereco	INT NOT NULL
+);
+
 CREATE TABLE Fone (
     id_fone INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    id_cliente INT NOT NULL,
     tipo_fone VARCHAR(30) NOT NULL,
-    numero VARCHAR(11) NOT NULL,
-    contato VARCHAR(30)
+    contato VARCHAR(100) NOT NULL,
+    numero VARCHAR(11) NOT NULL
 );
 
 CREATE TABLE Email (
     id_email INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    id_cliente INT NOT NULL,
     tipo_email VARCHAR(30) NOT NULL,
+    contato VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL
 );
 
@@ -94,7 +114,7 @@ CREATE TABLE OSTipoproduto (
 CREATE TABLE Modelo (
     id_modelo INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     id_marca INT NOT NULL,
-    id_tipo_produto INT NOT NULL,
+    id_tipo_produto INT,
     descricao_modelo VARCHAR(100)
 );
 
@@ -107,8 +127,6 @@ CREATE TABLE Marca (
 CREATE TABLE Produto (
     id_produto INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     id_modelo INT NOT NULL,
-    id_os INT NOT NULL,
-    id_filial INT NOT NULL,
     descricao_produto VARCHAR(1000),
     valor_custo FLOAT(6,2) NOT NULL,
     valor_venda FLOAT(6,2) NOT NULL,
@@ -121,18 +139,31 @@ CREATE TABLE Produto (
     unidade VARCHAR(30) NOT NULL
 );
 
+CREATE TABLE OSProduto (
+    id_os INT NOT NULL,
+    id_produto INT NOT NULL
+);
+
 CREATE TABLE Servico (
     id_servico INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    id_os INT NOT NULL,
-    descricao VARCHAR(1000),
-    valor FLOAT(6,2) NOT NULL,
-    quantidade INT NOT NULL
+    descricao_servico VARCHAR(1000) NOT NULL,
+    quantidade INT NOT NULL,
+    valor_unitario FLOAT(6,2) NOT NULL
+);
+
+CREATE TABLE OSServicoServico (
+    id_servico INT NOT NULL,
+    id_osservico INT NOT NULL
+    
 );
 
 CREATE TABLE OSServico (
-    id_servico INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    descricao_servico VARCHAR(1000) NOT NULL,
-    valor_unitario FLOAT(6,2) NOT NULL
+    id_osservico INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    id_os INT NOT NULL,
+    valor FLOAT(6,2) NOT NULL,
+    descricao VARCHAR(1000)
+    
+    
 );
 
 CREATE TABLE Categoria (
@@ -140,22 +171,33 @@ CREATE TABLE Categoria (
     descricao_categoria VARCHAR(100) NOT NULL
 );
 
+CREATE TABLE OSCategoria (
+    id_os INT NOT NULL,
+    id_categoria INT NOT NULL
+    
+);
+
 CREATE TABLE Filial (
     id_filial INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    id_endereco INT NOT NULL,
+    id_fone INT NOT NULL,
+    id_email INT NOT NULL,
     nome VARCHAR(100) NOT NULL,
-    endereco VARCHAR(200) NOT NULL,
-    bairro VARCHAR(200) NOT NULL,
-    cidade VARCHAR(200) NOT NULL,
-    estado VARCHAR(30) NOT NULL,
-    fone VARCHAR(11),
-    celular VARCHAR(11),
     cnpj VARCHAR(14) NOT NULL
+);
+
+CREATE TABLE FilialProduto (
+    id_filial INT NOT NULL,
+    id_produto INT NOT NULL
+    
 );
 
 CREATE TABLE Funcionario (
     id_funcionario INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    id_status INT NOT NULL,
+    id_status INT,
     id_filial INT NOT NULL,
+    id_endereco INT NOT NULL,
+    id_fone INT NOT NULL,
     nome_funcionario VARCHAR(200) NOT NULL,
     data_admissao DATE NOT NULL,
     data_demissao DATE,
@@ -181,19 +223,29 @@ CREATE TABLE PlanoPagamento (
     id_plano_pagamento INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     descricao_plano_pagamento VARCHAR(200),
     parcelas INT NOT NULL,
-    juros INT
+    juros VARCHAR(50)
 );
 
 CREATE TABLE FormaPagamento (
     id_forma_pagamento INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    id_plano_pagamento INT NOT NULL,
     descricao_forma_pagamento VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE PlanoPagamentoFormaPagamento (
+    id_forma_pagamento INT NOT NULL,
+    id_plano_pagamento INT NOT NULL
 );
 
 CREATE TABLE Acessorio (
     id_acessorio INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     descricao_acessorio VARCHAR(100) NOT NULL
 );
+
+CREATE TABLE OSAcessorio (
+    id_os INT NOT NULL,
+    id_acessorio INT NOT NULL
+);
+
 
 CREATE TABLE TipoAtendimento (
     id_tipo_atendimento INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
