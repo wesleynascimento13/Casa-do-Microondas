@@ -1,0 +1,710 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    font-size: 18px;
+    margin-bottom: 60px;
+    color: black;
+    background-color: white;
+}
+
+a {
+    color: orangered; /* Altere para a cor desejada */
+}
+
+html{
+    scroll-behavior: smooth;
+}
+
+h1 {
+    font-size: 22px;
+}
+
+header {
+    background-color: white;
+    color: black;
+    padding: 20px;
+    min-height: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 9999;
+    box-shadow: 0 2px 50px rgba(0, 0, 0, 0.1);
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+
+.site-name h1 {
+    margin: 0;
+    
+    
+}
+
+header nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    
+    
+}
+
+header nav ul li {
+    display: inline;
+    margin-left: 20px;
+    
+    
+}
+
+header nav ul li:first-child {
+    margin-left: 0;
+    
+    
+}
+
+header nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    color: black;
+    
+}
+
+main {
+    padding-top: 100px; /* Ajuste conforme a altura do header */
+    padding-bottom: 100px; /* Ajuste conforme a altura do footer */
+}
+
+footer {
+    background-color: white;
+    color: black;
+    padding: 20px; 
+    text-align: center;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    z-index: 9999;
+    max-height: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 15px;
+    box-shadow: 0 2px 50px rgba(0, 0, 0, 0.1);
+}
+
+.margem_negativa {
+    margin-right: -13px; 
+}
+
+.margem_direita {
+    margin-right: 50px;
+}
+
+.image-container {
+    position: relative;
+    text-align: center;
+    margin-top: -100px;
+}
+
+.image-text {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: rgb(0, 0, 0);
+    font-size: 24px;
+
+}
+
+.image-text-2 {
+    position: absolute;
+    top: 57%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 15px;
+    margin-top: -5300px;
+}
+
+.tamanho_fonte_1{
+    font-size: 25px;
+}
+
+.tamanho_fonte_2{
+    font-size: 40px;
+}
+
+.tamanho_fonte_3{
+    font-size: 18px;
+}
+
+.highlight-text {
+    font-size: 55px; 
+}
+
+.highlight-text-2 {
+    font-size: 30px; 
+}
+
+.product-container {
+    display: flex;
+    align-items: center;
+  }
+  .product-info {
+    flex: 1;
+    margin-right: 20px;
+  }
+  
+  .product-image {
+    
+    height: auto;
+  }
+
+  .margem_produto {
+    margin-top: 125px;
+    margin-left: 125px;
+    margin-right: 0px;
+  }
+
+  .black-button {
+    background-color: black;
+    color: white;
+    padding: 20px 30px;
+    border: none;
+    cursor: pointer;
+    margin-top: 30px;
+    font-size: 20px
+}
+
+button {
+    background-color: orangered;
+    color: white;
+    padding: 20px 30px;
+    border: none;
+    cursor: pointer;
+    margin-top: 30px;
+    font-size: 20px
+}
+
+.white-button {
+    background-color: white;
+    color: black;
+    padding: 20px 30px;
+    border: none;
+    cursor: pointer;
+    margin-top: 30px;
+    font-size: 20px
+}
+
+.centralizado{
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 70px;
+    margin-bottom: 30px;
+}
+
+.imagem-centralizada {
+    display: block;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+.image-container {
+    display: flex;
+    justify-content: center;
+    
+  }
+
+  .single-image {
+    margin-top: 50px;
+  }
+
+  .container_2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 100px;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.container_3 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 0px;
+    margin-left: 250px;
+    margin-right: 0px;
+}
+
+#form-container form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Distribui os elementos igualmente */
+}
+
+#form-container .form-group {
+    flex: 0 0 0%; /* Define a largura máxima de cada grupo */
+    margin-bottom:30px; /* Adiciona margem inferior entre os grupos de formulários */
+}
+
+#form-container .form-group:nth-child(4) {
+    flex: 0 0 100%; /* Define a largura máxima para o grupo da mensagem */
+}
+
+#form-container button[type="submit"] {
+    flex: 0 0 10%; /* Define a largura máxima para o botão */
+}
+
+
+#form-container button[type="submit"] {
+    width: 10%; /* Ocupa toda a largura disponível */
+    height: 50px; /* Altura desejada */
+    padding: 10px;
+    background-color: orangered;
+    color: #000000;
+    border: none;
+    cursor: pointer;
+    margin: 0 auto; /* Centraliza horizontalmente */
+}
+
+#form-container .form-group:nth-child(4) {
+    flex: 0 0 100%; /* Define a largura máxima para o grupo da mensagem */
+}
+
+#form-container textarea {
+    width: 100%; /* Define a largura máxima para a área de texto */
+    height: 100px; /* Ajusta a altura da área de texto */
+}
+
+#form-container .form-group {
+    flex: 0 0 30%; /* Define a largura máxima de cada grupo */
+    margin-bottom: 15px; /* Adiciona margem inferior entre os grupos de formulários */
+}
+
+#form-container input[type="text"],
+#form-container input[type="tel"],
+#form-container input[type="email"] {
+    width: 105%; /* Define a largura máxima para os campos de texto */
+    height: 30px
+}
+
+.container-produto {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 100px;
+    margin-top: 50px;
+}
+.informacoes-produto {
+    width: calc(50% - 10px); /* 50% do espaço disponível menos a margem */
+}
+.mapa-container {
+    width: calc(50% - 10px); /* 50% do espaço disponível menos a margem */
+}
+.mapa {
+    position: relative;
+    width: 100%;
+    height: 450px;
+    background: #fff;
+}
+
+.container-alt {
+    overflow: hidden; /* Clear floats */
+    margin-top: 100px;
+  }
+  
+  .image-alt {
+    float: left; /* Coloca a imagem à esquerda */
+    margin-right: 20px; /* Espaçamento entre a imagem e o texto */
+    margin-top: 70px;
+  }
+  
+  .text-box {
+    width: calc(100% - 350px); /* Define a largura do contêiner de texto (tamanho total da div - tamanho da imagem) */
+  }
+  
+   /* Estilos para centralizar */
+   .content {
+    text-align: center;
+    margin-top: 50px;
+  }
+
+  .centered-img {
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 50px;
+  }
+
+  .margem_esquerda_direita{
+    margin-left: 70px;
+    margin-right: 70px;
+  }
+
+  .horizontal_vertical{
+    overflow: hidden;
+  }
+  
+  .horizontal{
+    overflow-x: hidden;
+  }
+
+  .img-x-branco_1 {
+    position: absolute;
+    top: -195px; /* ajuste conforme necessário */
+    left: 1044px; /* ajuste conforme necessário */
+}
+
+.img-x-branco_2 {
+    position: absolute;
+    top: -50px; /* ajuste conforme necessário */
+    left: 1020px; /* ajuste conforme necessário */
+}
+
+.img-x-branco-3{
+    position: absolute;
+    top: -147px; /* ajuste conforme necessário */
+    left: 936px; /* ajuste conforme necessário */
+}
+.container-custom {
+    margin: 0 auto;
+    width: 80%;
+    min-width: 700px;
+    margin-left: 200px;
+}
+
+.container-custom {
+    margin: 0 auto;
+    width: 80%;
+    max-width: 600px;
+}
+
+#form-container-custom {
+    margin-top: 20px;
+}
+
+#contact-form-custom {
+    padding: 20px;
+    background-color: black;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.form-group-custom {
+    margin-bottom: 20px;
+}
+
+.inline-fields {
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-group-inline {
+    width: 48%; /* Ajuste conforme necessário */
+}
+
+label {
+    display: block;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+button[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: orangered;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: orangered;
+}
+
+#response-message-custom {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.imagem-centralizada {
+    display: block;
+    margin: 0 auto;
+}
+
+.contato {
+    display: flex;
+    align-items: center;
+    font-size: 50px;
+    margin-bottom: -90px;
+}
+
+.contato_2 {
+    margin-left: 20px;
+    
+}
+
+.imagem-margem {
+    margin-left: 22px;
+    margin-right: 20px;
+}
+
+
+.login-container-unique {
+    width: 300px;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 200px;
+}
+
+.custom-login-form-unique h2 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form-group-unique {
+    margin-bottom: 15px;
+}
+
+.form-group-unique label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group-unique input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.custom-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.custom-button:hover {
+    background-color: #0056b3;
+}
+
+.register-container {
+    width: 300px;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 150px;
+}
+
+.custom-register-form h2 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+
+/* Estilos para dispositivos móveis */
+
+/* Estilos para dispositivos móveis */
+
+@media only screen and (max-width: 600px) {
+    /* Estilos para o header */
+    header {
+        padding: 10px;
+    }
+
+    .site-name {
+        text-align: center;
+    }
+
+    .site-name h1 {
+        margin: 0;
+        font-size: 13px;
+    }
+
+    h2 {
+        margin-top: 50px;
+        font-size: 25px;
+    }
+
+    header nav ul {
+        text-align: center;
+        margin-top: 10px;
+        padding-left: 0; /* Remova o preenchimento padrão */
+    }
+
+    header nav ul li {
+        display: inline-block; /* Alterado de block para inline-block */
+        margin: 8px; /* Adiciona um espaçamento entre os links */
+    }
+
+    /* Estilos para as imagens */
+    .imagem-margem {
+        margin: 20px auto;
+        margin-left: 20px;
+    }
+
+    /* Outros ajustes */
+    .margem_produto {
+        margin-left: 0px;
+        margin-top: 0px;
+    }
+
+    .product-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: justify;
+    }
+
+    .product-info {
+        margin: 20px;
+    }
+
+    .product-image {
+        width: 100%;
+        height: auto;
+    }
+
+    .single-image {
+        margin: 0 auto; /* Isso centraliza horizontalmente as imagens */
+        display: block; /* Isso garante que as imagens ocupem toda a largura disponível */
+    }
+
+    .container_2.container-contato-reboucas,
+    .container_2.container-contato-santa-felicidade {
+        display: flex; /* Tornar os contêineres flexíveis */
+        justify-content: center; /* Alinhar os itens horizontalmente no centro */
+        align-items: center; /* Alinhar os itens verticalmente no centro */
+        flex-direction: column; /* Para garantir que os itens fiquem empilhados verticalmente */
+        margin-top: 20px; /* Ajuste conforme necessário */
+        text-align: center; /* Alinhar o texto centralmente dentro dos contêineres */
+    }
+
+    #form-container button[type="submit"] {
+        width: 50%; /* Defina o tamanho do botão como metade da largura disponível */
+        max-width: 200px; /* Defina um tamanho máximo para o botão */
+    }
+
+    .container-produto {
+        flex-direction: column; /* Alinhar os elementos verticalmente em dispositivos móveis */
+        align-items: center; /* Centralizar os elementos na horizontal */
+        margin-left: -10px;
+    }
+
+    .informacoes-produto,
+    .mapa-container {
+        width: 100%; /* Defina a largura máxima para as informações de contato e o mapa */
+        max-width: 400px; /* Defina um tamanho máximo para garantir que não fiquem muito largos */
+        text-align: center; /* Centralizar o texto */
+    }
+
+    .mapa {
+        width: 100%; /* Defina a largura máxima para o mapa */
+        max-width: 400px; /* Defina um tamanho máximo para o mapa */
+        margin: 0 auto; /* Centralize horizontalmente */
+    }
+
+    .telefone {
+        font-size: 30px;
+        margin-top: 100px;
+    }
+
+   
+    .container-alt {
+        overflow: hidden; /* Clear floats */
+        margin-top: 100px;
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Alinhando os itens horizontalmente */
+        text-align: center; /* Alinhando o texto centralmente */
+    }
+
+    .image-alt {
+        width: 100%; /* Ajustando a largura da imagem para ocupar toda a largura disponível */
+        max-width: 400px; /* Definindo um tamanho máximo para a imagem */
+        margin-bottom: 20px; /* Adicionando um espaço abaixo da imagem */
+    }
+
+    .text-box {
+        width: 100%; /* Ajustando a largura do contêiner de texto para ocupar toda a largura disponível */
+        max-width: 600px; /* Definindo um tamanho máximo para o contêiner de texto */
+        padding: 0 20px; /* Adicionando um espaçamento interno ao redor do texto */
+    }
+
+    .content {
+        text-align: center; /* Alinhando o texto centralmente */
+        margin-bottom: 20px; /* Adicionando um espaço abaixo do cabeçalho */
+    }
+    
+    .tamanho {
+        width: 300px;
+        height: 300px;
+    }
+    /* Ajuste de margem para os campos de entrada */
+    .form-group {
+        margin-bottom: 15px;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 11px;
+    }
+    
+    .form-group input {
+        width: 100%;
+        padding: 3px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        
+    }
+}
+    
+
+   
+
+   
+
+
+
