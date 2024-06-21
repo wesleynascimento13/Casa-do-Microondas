@@ -341,16 +341,14 @@ app.delete('/servicos/:id', (req, res) => {
 app.put('/servicos', (req, res) => {
     
     let id = req.body.id_servico;
-    let tit = req.body.titulo_servico;
+    let tit = req.body.tit;
     let desc = req.body.desc;
     let url = req.body.url;
     let img = req.body.img;
     let ordem = req.body.ordem;
     let ativo = req.body.ativo;
 
-    conexao.query(`exec SP_upd_Servico
-        '${id}','${tit}', '${desc}','${img}',
-        '${url}', '${ordem}', '${ativo}'`, 
+    conexao.query(`EXEC SP_upd_Servico ${id}, '${tit}', '${desc}', '${img}', '${url}', ${ordem}, ${ativo}`,  
          (erro, resultado) => {
            if (erro) {
                console.log(erro);

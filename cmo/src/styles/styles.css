@@ -158,6 +158,7 @@ footer {
 .product-container {
     display: flex;
     align-items: center;
+    list-style-type: none;
   }
   .product-info {
     flex: 1;

@@ -13,5 +13,3 @@ function Slide() {
                 alert(err);
             });
     }, []);
-    
-// a carga.map será servicos.map

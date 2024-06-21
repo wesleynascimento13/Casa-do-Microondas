@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import Layout from './components/layout.jsx';
 import Inicio from "./components/index/inicio.jsx"
-import Servico from './components/index/servico.jsx';
+import Servicos from './components/index/servicos.jsx';
 import Contato from './components/index/contato.jsx';
 import Localizacao from './components/index/localizacao.jsx';
 import Cadastro from './components/paginas/pag_cadastro.jsx';
@@ -29,7 +29,7 @@ root.render(
                 botao_inicio_1="Conserto em 30 Minutos"
                 href1="conserto-30-minutos"
             />
-            <Servico
+            <Servicos
               img_fundo={require('./Imagens/retangulo_laranja.png')}
               nome_servico="conserto-microondas"
               desc_servico="desrição"
