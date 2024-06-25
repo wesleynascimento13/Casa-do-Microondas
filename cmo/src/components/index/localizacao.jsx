@@ -1,5 +1,5 @@
 import React, { useEffect }  from 'react';
-import { Link } from 'react-router-dom'; 
+//import { Link } from 'react-router-dom'; 
 import '../../styles/styles.css';
 
 function Localizacao(props) {
@@ -34,7 +34,7 @@ function Localizacao(props) {
           </div>
           <div className="mapa-container">
             <div className="mapa">
-              <iframe src={props.maps}></iframe>
+              <iframe title="Mapa de Localização" src={props.maps}></iframe>
             </div>
           </div>
         </div>

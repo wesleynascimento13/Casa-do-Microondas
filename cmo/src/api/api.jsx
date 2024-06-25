@@ -1,9 +1,11 @@
-import axios from "axios";
-
-const URL_Servidor = "http://localhost:5000";
+import axios from 'axios';
 
 const api = axios.create({
-  baseURL: URL_Servidor,
+  baseURL: 'http://localhost:5000', 
+  headers: {
+    'Content-Type': 'application/json',
+    'x-access-token': localStorage.getItem('token') || '',
+  },
 });
 
 export default api;

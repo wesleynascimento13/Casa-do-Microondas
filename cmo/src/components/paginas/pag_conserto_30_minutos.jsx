@@ -1,4 +1,5 @@
 import React from 'react';
+import { logout } from '../../utils/loginout';
 import '../../styles/styles.css';
 import consertoEm30MinImg from '../../Imagens/conserto_em_30_min.png';
 
@@ -13,8 +14,12 @@ function Conserto30Minutos(props) {
             height="350"
             style={{ maxWidth: '100%', height: 'auto', display: 'block', margin: '0 auto' }}
           />
+          <h1>Página Acessível</h1>
+          <button onClick={logout}>Logout</button>
         </div>
       </div>
+      
+      
     );
 }
 

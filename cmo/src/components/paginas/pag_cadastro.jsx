@@ -1,67 +1,92 @@
-import React from 'react';
+import React, { useState } from 'react';
 import api from '../../api/api';
 import '../../styles/styles.css';
 
-function btnCadastrarClick(e) {
-  e.preventDefault(); 
+function Cadastro(e) {
+  const [nome, setNome] = useState('');
+  const [email, setEmail] = useState('');
+  const [endereco, setEndereco] = useState('');
+  const [fone, setFone] = useState('');
+  const [senha, setSenha] = useState('');
 
-  let nome = document.getElementById('name').value;
-  let email = document.getElementById('email').value; 
-  let endereco = document.getElementById('endereco').value; 
-  let cpf = document.getElementById('cpf').value; 
+  const btnCadastrarClick = async (e) => {
+    e.preventDefault();
 
-  api.post('/cadastro', {nome, email, cpf, endereco})
-        .then((resp) => {
-          console.log(resp);
-          alert('Os dados foram enviados com sucesso');
-        })
-        .catch((err) =>{
-          console.error(err);
-          alert('Erro ao enviar os dados de contado');
-        })
+    const permissao = "cliente";
 
+    try {
+      const resp = await api.post('/clientes', { nome, email, fone, endereco, senha, permissao });
+      console.log(resp.data);
+      alert('Os dados foram enviados com sucesso');
+
+      // Limpar os campos após o cadastro ser concluído
+      setNome('');
+      setEmail('');
+      setEndereco('');
+      setFone('');
+      setSenha('');
+    } catch (err) {
+      console.error(err);
+      alert('Erro ao enviar os dados de cadastro');
     }
+  };
 
-function Cadastro(props) {
   return (
     <div className="register-container">
-      <form className="custom-register-form"  onSubmit={btnCadastrarClick}>
+      <form className="custom-register-form" onSubmit={btnCadastrarClick}>
         <h2>Cadastro</h2>
         <div className="form-group">
-          <label htmlFor="custom-fullname">Nome Completo:</label>
-          <input type="text" id="name" name="custom-fullname" required />
+          <label htmlFor="name">Nome Completo:</label>
+          <input type="text" id="name" name="name" value={nome} onChange={(e) => setNome(e.target.value)} required />
         </div>
         <div className="form-group">
-          <label htmlFor="custom-email">Email:</label>
-          <input type="email" id="email" name="custom-email" required />
+          <label htmlFor="email">Email:</label>
+          <input type="email" id="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
         </div>
         <div className="form-group">
-        <label htmlFor="cpf">CPF:</label>
+          <label htmlFor="fone">Telefone de Contato:</label>
           <input
             type="text"
-            id="cpf"
-            name="cpf"
-            pattern="\d{3}\d{3}\d{3}\d{2}"
-            title="Digite um CPF com 11 dígitos no formato: xxxxxxxxxxx"
+            id="fone"
+            name="fone"
+            title="Digite um telefone válido..."
+            value={fone}
+            onChange={(e) => setFone(e.target.value)}
             required
             autoComplete="off"
           />
         </div>
         <div className="form-group">
-          <label htmlFor="custom-address">Endereço Completo:</label>
+          <label htmlFor="endereco">Endereço Completo:</label>
           <input
             type="text"
             id="endereco"
-            name="custom-address"
+            name="endereco"
+            value={endereco}
+            onChange={(e) => setEndereco(e.target.value)}
             required
             autoComplete="street-address"
           />
         </div>
-        <br/>
+        <div className="form-group">
+          <label htmlFor="senha">Senha:</label>
+          <input
+            type="password"
+            id="senha"
+            name="senha"
+            value={senha}
+            onChange={(e) => setSenha(e.target.value)}
+            required
+            autoComplete="new-password"
+          />
+        </div>
+        <br />
         <button type="submit">Cadastrar</button>
       </form>
     </div>
   );
 }
+
+
 
 export default Cadastro;

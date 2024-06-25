@@ -33,7 +33,7 @@ function Header(props) {
             navigate('/');
             setTimeout(() => scrollToSection('servicos', 100), 0);
         } else {
-            scrollToSection('servicos', 100);
+            setTimeout(() => scrollToSection('servicos', 100), 100);
         }
     };
 
@@ -51,9 +51,9 @@ function Header(props) {
         e.preventDefault();
         if (window.location.pathname !== '/') {
             navigate('/');
-            setTimeout(() => scrollToSection('localizacao', 100), 0);
+            setTimeout(() => scrollToSection('localizacao', 140), 0);
         } else {
-            scrollToSection('localizacao', 100);
+            scrollToSection('localizacao', 140);
         }
     };
 
@@ -78,7 +78,7 @@ function Header(props) {
                             <a href="/" onClick={handleLocalizacaoClick}>Localização</a>
                         </li>
                         <li>
-                            <a href={props.pag_cadastro}>Acessar Conta</a>
+                            <a href={props.pag_conta_cliente}>Acessar Conta</a>
                         </li>
                     </ul>
                 </nav>

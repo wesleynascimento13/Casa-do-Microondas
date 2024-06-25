@@ -1,47 +1,52 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import api from '../../api/api';
 import '../../styles/styles.css';
 
+
+
 function Servicos() {
-
-  useEffect(() => {
-    const servicosSection = document.getElementById('servicos');
-    if (servicosSection) {
-        servicosSection.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, []);
-
-  const [servicos, setServicos] = useState([]);
+    const [servicos, setServicos] = useState([]);
+    const [isLoaded, setIsLoaded] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get('http://localhost:5000/servicos')
-            .then(response => {
-                console.log(response.data); // Verifica os dados recebidos no console
-                setServicos(response.data); // Atualiza o estado com os serviços recebidos
+        api.get('/servicos')
+            .then((res) => {
+                setServicos(res.data);
+                setIsLoaded(true); // Dados carregados
             })
-            .catch(error => {
-                console.error('Erro ao carregar serviços:', error);
-                // Tratar erro, por exemplo, exibir uma mensagem de erro na UI
+            .catch((err) => {
+                alert(err);
             });
-    }, []); // O segundo argumento [] indica que o useEffect será executado apenas uma vez
+    }, []);
 
+    const handleServiceClick = (id) => {
+        navigate(`/servico/${id}`);
+    };
+
+    
     return (
-      <div id='servicos'>
-        <h1>Serviços Disponíveis</h1>
-          <ul className='product-container'>
-              {servicos.map(servico => (
-                  <li key={servico.id_servico}>
-                      <a href={servico.url_servico} target="_blank" rel="noopener noreferrer">
-                          <div className="servico-item">
-                              <h3>{servico.titulo_servico}</h3>
-                              <p>{servico.desc_servico}</p>
-                              <img src={servico.img_servico} alt={servico.titulo_servico} />
-                          </div>
-                      </a>
-                  </li>
-              ))}
-          </ul>
-      </div>
+        <div id='servicos'>
+            <h1>Serviços Disponíveis</h1>
+            {!isLoaded && <div className="placeholder"></div>} {/* Div invisível */}
+            <div className={`fade-in ${isLoaded ? 'show' : ''}`}>
+                <ul className='product-container'>
+                    {servicos.map(servico => (
+                        <li key={servico.id_servico} onClick={() => handleServiceClick(servico.id_servico)}>
+                            <div>
+                                <div className="servico-item">
+                                    <h3>{servico.titulo_servico}</h3>
+                                    <p>{servico.desc_servico}</p>
+                                    {servico.imagem && <img src={require(`.${servico.imagem}`).default} alt={servico.titulo_servico} />}
+                                </div>
+                            </div>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </div>
     );
 }
+
 export default Servicos;
