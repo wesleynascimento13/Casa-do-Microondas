@@ -315,13 +315,14 @@ button {
     width: calc(50% - 10px); /* 50% do espaço disponível menos a margem */
 }
 .mapa-container {
-    width: calc(50% - 10px); /* 50% do espaço disponível menos a margem */
+    width: calc(90% - 10px); /* 50% do espaço disponível menos a margem */
 }
 .mapa {
     position: relative;
     width: 100%;
-    height: 450px;
+    height: auto;
     background: #fff;
+    bottom: 5%;
 }
 
 .container-alt {
@@ -567,6 +568,7 @@ button[type="submit"]:hover {
     display: flex;
     justify-content: center;
     align-items: center;
+    
   }
   
   .center {
@@ -580,7 +582,7 @@ button[type="submit"]:hover {
     height: 60px;
     cursor: pointer;
     background: transparent;
-    border: 1px solid white;
+    border: 4px solid white;
     outline: none;
     transition: 1s ease-in-out;
 
@@ -663,6 +665,8 @@ button[type="submit"]:hover {
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
+
+
 .service-image:hover {
     transform: scale(1.1);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -672,6 +676,25 @@ button[type="submit"]:hover {
     transition: transform 0.3s ease-in-out;
   }
   
+  .button {
+    background-color: #ff5906;
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .button.active {
+    background-color: rgb(179, 0, 0);
+  }
+  
+
+
   /* Efeito de escala ao passar o mouse */
   .icone:hover {
     transform: scale(1.2); /* Aumenta o tamanho em 20% */
@@ -1024,8 +1047,313 @@ li.conserto30minutos {
     margin-top: 125px;
 }
 
+.chamados-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
 
+.container-adm {
+    text-align: center;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    max-width: 400px;
+    width: 90%;
+    margin-top: 110px;
+}
+
+.buttons-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Espaçamento entre os botões */
+}
+
+.button-link {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #ff5906;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.button-link:hover {
+    background-color: #0056b3;
+}
+
+/* página de chamados adm */
+
+.adm_container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    margin-top: 150px;
+  }
+  
+  .adm_title {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 24px;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+  }
+  
+  .adm_add_btn {
+    display: block;
+    margin: 0 auto 20px auto;
+    background-color: orangered;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .adm_add_btn:hover {
+    background-color: darkred;
+  }
+  
+  .adm_table_container {
+    width: 100%;
+    overflow-x: auto;
+  }
+  
+  .adm_table_container table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .adm_table_container th, .adm_table_container td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+    white-space: nowrap;
+  }
+  
+  .adm_table_container th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+  
+  .adm_table_container td {
+    font-size: 14px;
+  }
+  
+  .adm_table_container .adm_edit_btn, .adm_table_container .adm_delete_btn {
+    background-color: orangered;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    margin: 2px 1px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .adm_table_container .adm_edit_btn:hover, .adm_table_container .adm_delete_btn:hover {
+    background-color: darkred;
+  }
+
+  .modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    max-width: 90%;
+    max-height: 90%;
+    overflow: auto;
+}
+
+.modal-buttons {
+    margin-top: 20px;
+    text-align: right;
+}
+
+.modal-buttons button {
+    margin-left: 10px;
+}
+
+.link_transparente a {
+    color: transparent; /* Altere para a cor desejada */
+}
+
+.icone {
+    transition: transform 0.3s ease-in-out;
+    width: 50px;
+    height: auto;
+  }
+
+.centralizado{
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 70px;
+    margin-bottom: 30px;
+}
+
+.second-image {
+    position: absolute;
+    top: 4%;
+    left:17%;
+    width: 230px; /* Ajuste para corresponder ao tamanho original */
+    height: 220px; /* Ajuste para corresponder ao tamanho original */
+  border-radius: 3px;
+  border-radius: 80%;
+}
+
+.servico1-container {
+    position: relative;
+    display: inline-block;
+    width: 360px;
+    height: 454px;
+    border: 1px solid #ccc; /* Apenas para visualização */
+    
+    
+}
+
+.servico1-image {
+    width: 100%;
+    height: 100%;
    
+    
+}
+
+.servico1-text_1 {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: black;
+    font-size: 24px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+  
+    
+}
+
+.servico1-text_2 {
+    position: absolute;
+    top:1%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: black;
+    font-size: 18px;
+    text-align: center;
+    
+  
+}
+
+.servico1 {
+    position: absolute;
+    right:25%;
+    top: 30%;
+}
+
+.service {
+    position: absolute;
+    top:60%;
+    right:5%;
+}
+
+.marcas_licenciadas{
+    margin-top: 60px;
+    margin-bottom: -30px;
+
+}
+
+
+.conserto-em-30-minutos-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    margin: auto;
+    
+}
+
+.conserto-em-30-minutos-site-name {
+    display: flex;
+    align-items: center;
+}
+
+.conserto-em-30-minutos-site-name img {
+    margin-right: 10px;
+    
+}
+
+
+.conserto-em-30-min-container {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 1200px;
+    padding: 20px;
+    text-align: center;
+    margin-top: 40px;
+    
+}
+.conserto-em-30-min-title {
+    color: orangered;
+    margin-bottom: 20px;
+}
+.conserto-em-30-min-text {
+    font-size: 1rem;
+    margin: 10px 0;
+}
+.conserto-em-30-min-list {
+    text-align: left;
+    padding-left: 20px;
+    
+}
+.conserto-em-30-min-list-item {
+    margin-bottom: 10px;
+}
+.conserto-em-30-min-list-item::before {
+    content: '✔';
+    color: orangered;
+    margin-right: 10px;
+}
+.conserto-em-30-min-important {
+    color: orangered;
+    font-weight: bold;
+}
+
+.informacoes-produto,
+.mapa-container {
+        width: 100%; /* Defina a largura máxima para as informações de contato e o mapa */
+        max-width: 400px; /* Defina um tamanho máximo para garantir que não fiquem muito largos */
+        text-align: center; /* Centralizar o texto */
+}
+
+.mapa {
+    width: 100%; /* Defina a largura máxima para o mapa */
+    max-width: 400px; /* Defina um tamanho máximo para o mapa */
+    margin: 0 auto; /* Centralize horizontalmente */
+    right: 70%;
+}
+
 /* JS */
 
 .fade-in {
@@ -1077,3 +1405,360 @@ main {
   }
 
 
+
+
+  /* Estilos para dispositivos móveis */
+
+  @media (max-width: 600px) {
+    .marcas_licenciadas img {
+      animation: pulse 2s ease-in-out infinite, moveUpAndDisappear 4s ease-in-out infinite;
+    }
+  }
+
+/* Exibe a primeira imagem em telas grandes */
+
+@media only screen and (min-width: 601px) {
+    .imagem-logo .desktop-image {
+        display: block;
+    }
+
+    .responsive-image.desktop-image {
+        width: 1550px;
+        height: 700px;
+    }
+}
+
+/* Exibe a segunda imagem em telas pequenas */
+@media only screen and (max-width: 600px) {
+    .imagem-logo .mobile-image {
+        display: block;
+    }
+
+    .responsive-image.mobile-image {
+        width: 420px;
+        height: 800px;
+        margin-bottom: 100px;
+    }
+}
+.marcas-container {
+    position: relative;
+    width: 800px; /* Aumenta a largura do contêiner */
+    margin: 20px auto;
+    overflow: hidden; /* Esconde a barra de rolagem horizontal */
+    margin-top: -20px;
+}
+  
+.arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
+    color: #333;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 5px 10px;
+    cursor: pointer;
+    z-index: 1;
+    user-select: none; /* Impede a seleção de texto nas setas */
+}
+  
+.arrow-left {
+    left: 10px;
+}
+  
+.arrow-right {
+    right: 10px;
+}
+  
+.marcas-overflow {
+    overflow-x: hidden; /* Esconde a barra de rolagem horizontal */
+    white-space: nowrap; /* Impede que as imagens quebrem para uma nova linha */
+}
+  
+.marcas_licenciadas {
+    display: inline-flex; /* Garante que as imagens fiquem em linha */
+    transition: transform 0.5s ease; /* Transição suave para transformações */
+}
+  
+.marcas_licenciadas img {
+    margin: 0 10px; /* Espaçamento entre as imagens */
+    cursor: grab; /* Define o cursor como uma mãozinha de agarrar */
+}
+
+  
+  
+@media only screen and (max-width: 600px) {
+    /* Estilos para o header */
+   
+    body{
+        overflow-x: hidden;
+    }
+
+    .marcas-container {
+        position: relative;
+        width: 350px; /* Aumenta a largura do contêiner */
+        margin: 20px auto;
+        overflow: hidden; /* Esconde a barra de rolagem horizontal */
+        margin-top: -20px;
+    }
+
+    .mapa {
+        display: none;
+    }
+
+    .marcas{
+        margin-top: -150px;
+    }
+
+    header {
+        background-color: white;
+        color: black;
+        padding: 20px;
+        min-height: 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 9999;
+        box-shadow: 0 2px 50px rgba(0, 0, 0, 0.1);
+      
+    }
+    
+    .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        
+    }
+    
+    .site-name {
+        display: flex;
+        align-items: center; /* Para alinhar verticalmente */
+    }
+    
+    .site-name img {
+        margin-right: 10px; /* Ajuste conforme necessário */
+    }
+    
+    .site-name h1 {
+        margin: 0;
+    }
+    
+    header nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        
+        
+    }
+    
+    header nav ul li {
+        display: inline;
+        margin-left: 20px;
+        
+        
+    }
+    
+    header nav ul li:first-child {
+        margin-left: 0;
+        
+        
+    }
+    
+    header nav ul li a {
+        color: #fff;
+        text-decoration: none;
+        color: black;
+        
+    }
+    
+    main {
+        padding-top: 100px; /* Ajuste conforme a altura do header */
+        padding-bottom: 100px; /* Ajuste conforme a altura do footer */
+    }
+ 
+    .site-name {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    
+
+    .site-name h1 {
+        margin: 0;
+        font-size: 18px;
+       
+    }
+
+    .links{
+        margin-left: -350px;
+        margin-top: 60px;
+        font-size: 9px;
+    }
+
+    .logo{
+        margin-left: 50px;
+    }
+    
+    header nav ul {
+        text-align: center;
+        margin-top: 10px;
+        font-size: 12px;
+
+        padding-left: 0; /* Remova o preenchimento padrão */
+    }
+
+    header nav ul li {
+        display: inline-block; /* Alterado de block para inline-block */
+        margin: 8px; /* Adiciona um espaçamento entre os links */
+
+    }
+
+    /* Estilos para as imagens */
+    .imagem-margem {
+        margin: 20px auto;
+        margin-left: 20px;
+    }
+
+    /* Outros ajustes */
+    .margem_produto {
+        margin-left: 0px;
+        margin-top: 0px;
+    }
+
+    .product-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: justify;
+    }
+
+    .product-info {
+        margin: 20px;
+    }
+
+    .product-image {
+        width: 100%;
+        height: auto;
+    }
+
+    .single-image {
+        margin: 0 auto; /* Isso centraliza horizontalmente as imagens */
+        display: block; /* Isso garante que as imagens ocupem toda a largura disponível */
+    }
+
+    .container_2.container-contato-reboucas,
+    .container_2.container-contato-santa-felicidade {
+        display: flex; /* Tornar os contêineres flexíveis */
+        justify-content: center; /* Alinhar os itens horizontalmente no centro */
+        align-items: center; /* Alinhar os itens verticalmente no centro */
+        flex-direction: column; /* Para garantir que os itens fiquem empilhados verticalmente */
+        margin-top: 20px; /* Ajuste conforme necessário */
+        text-align: center; /* Alinhar o texto centralmente dentro dos contêineres */
+    }
+
+    #form-container button[type="submit"] {
+        width: 50%; /* Defina o tamanho do botão como metade da largura disponível */
+        max-width: 200px; /* Defina um tamanho máximo para o botão */
+    }
+
+    .container-produto {
+        flex-direction: column; /* Alinhar os elementos verticalmente em dispositivos móveis */
+        align-items: center; /* Centralizar os elementos na horizontal */
+        margin-left: -10px;
+    }
+
+    .informacoes-produto,
+    .mapa-container {
+        width: 100%; /* Defina a largura máxima para as informações de contato e o mapa */
+        max-width: 400px; /* Defina um tamanho máximo para garantir que não fiquem muito largos */
+        text-align: center; /* Centralizar o texto */
+    }
+
+    .mapa {
+        width: 100%; /* Defina a largura máxima para o mapa */
+        max-width: 400px; /* Defina um tamanho máximo para o mapa */
+        margin: 0 auto; /* Centralize horizontalmente */
+    }
+
+    .telefone {
+        font-size: 30px;
+        margin-top: 100px;
+    }
+
+   
+    .container-alt {
+        overflow: hidden; /* Clear floats */
+        margin-top: 100px;
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Alinhando os itens horizontalmente */
+        text-align: center; /* Alinhando o texto centralmente */
+    }
+
+    .image-alt {
+        width: 100%; /* Ajustando a largura da imagem para ocupar toda a largura disponível */
+        max-width: 400px; /* Definindo um tamanho máximo para a imagem */
+        margin-bottom: 20px; /* Adicionando um espaço abaixo da imagem */
+    }
+
+    .text-box {
+        width: 100%; /* Ajustando a largura do contêiner de texto para ocupar toda a largura disponível */
+        max-width: 600px; /* Definindo um tamanho máximo para o contêiner de texto */
+        padding: 0 20px; /* Adicionando um espaçamento interno ao redor do texto */
+    }
+
+    .content {
+        text-align: center; /* Alinhando o texto centralmente */
+        margin-bottom: 20px; /* Adicionando um espaço abaixo do cabeçalho */
+    }
+    
+    .tamanho {
+        width: 300px;
+        height: 300px;
+    }
+    /* Ajuste de margem para os campos de entrada */
+    .form-group {
+        margin-bottom: 15px;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 11px;
+    }
+    
+    .form-group input {
+        width: 100%;
+        padding: 3px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        
+    }
+
+  
+
+    footer {
+        background-color: white;
+        color: black;
+        padding: 20px; 
+        text-align: center;
+        width: 100%;
+        position: fixed;
+        bottom: 0;
+        z-index: 9999;
+        max-height: 10px;
+        max-width: 375px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        font-size: 12px;
+        box-shadow: 0 2px 50px rgba(0, 0, 0, 0.1);
+    }
+
+    #whatsapp-link {
+        position: fixed;
+        bottom: 50px; 
+        right: 0px; 
+        z-index: 1000;
+    }
+}

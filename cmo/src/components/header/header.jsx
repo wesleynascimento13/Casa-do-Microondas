@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import '../../styles/styles.css';
 
 function Header(props) {
+
+    const permissao = localStorage.getItem('permissao');
+
     const navigate = useNavigate();
 
     const scrollToTop = () => {
@@ -31,9 +34,19 @@ function Header(props) {
         e.preventDefault();
         if (window.location.pathname !== '/') {
             navigate('/');
-            setTimeout(() => scrollToSection('servicos', 100), 0);
+            setTimeout(() => scrollToSection('servicos', 150), 0);
         } else {
-            setTimeout(() => scrollToSection('servicos', 100), 100);
+            setTimeout(() => scrollToSection('servicos', 150), 100);
+        }
+    };
+
+    const handleMarcasClick = (e) => {
+        e.preventDefault();
+        if (window.location.pathname !== '/') {
+            navigate('/');
+            setTimeout(() => scrollToSection('marcas', 450), 0);
+        } else {
+            setTimeout(() => scrollToSection('marcas', 150), 100);
         }
     };
 
@@ -41,7 +54,7 @@ function Header(props) {
         e.preventDefault();
         if (window.location.pathname !== '/') {
             navigate('/');
-            setTimeout(() => scrollToSection('contato', 100), 0);
+            setTimeout(() => scrollToSection('contato', 800), 0);
         } else {
             scrollToSection('contato', 100);
         }
@@ -51,7 +64,7 @@ function Header(props) {
         e.preventDefault();
         if (window.location.pathname !== '/') {
             navigate('/');
-            setTimeout(() => scrollToSection('localizacao', 140), 0);
+            setTimeout(() => scrollToSection('localizacao', 800), 0);
         } else {
             scrollToSection('localizacao', 140);
         }
@@ -60,16 +73,29 @@ function Header(props) {
     return (
         <header>
             <div className="container">
-                <div className="site-name">
-                    <h1>| {props.marca} |</h1>
-                </div>
+            <div className="site-name">
+                <a href="https://www.youtube.com/watch?v=oZ0rHe4Ovgs" target="_blank">
+                    <div className="logo">
+                        <img src={props.logo_cmo} alt="logo" width="70" height="70" />
+                    </div>
+                </a>
+                <h1>| {props.marca} |</h1>
+            </div>
                 <nav>
                     <ul>
+                        {permissao === 'adm' && (
+                            <li>
+                                <a href={props.gestao_adm}>Gestão</a>
+                            </li>
+                        )}
                         <li>
                             <a href="/" onClick={handleInicioClick}>Início</a>
                         </li>
                         <li>
                             <a href="/" onClick={handleServicosClick}>Serviços</a>
+                        </li>
+                        <li>
+                            <a href="/" onClick={handleMarcasClick}>Marcas</a>
                         </li>
                         <li>
                             <a href="/" onClick={handleContatoClick}>Contato</a>
@@ -78,7 +104,10 @@ function Header(props) {
                             <a href="/" onClick={handleLocalizacaoClick}>Localização</a>
                         </li>
                         <li>
-                            <a href={props.pag_conta_cliente}>Acessar Conta</a>
+                            <a href={props.pag_login}>Login</a>
+                        </li>
+                        <li>
+                            <a href={props.pag_conta_cliente}>Cadastro</a>
                         </li>
                     </ul>
                 </nav>

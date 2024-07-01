@@ -54,7 +54,7 @@ useEffect(() => {
             </div>
             <div className="form-group">
               <label htmlFor="message">Mensagem</label>
-              <textarea id="message" name="message" rows="6" required></textarea> {/* Aumentei o número de linhas */}
+              <textarea id="message" name="message" rows="6" required></textarea>
             </div>
             <button type="submit" style={{ color: 'white', fontSize: '14px' }} /*onClick={btnEnviarClick}*/>Enviar</button>
           </form>

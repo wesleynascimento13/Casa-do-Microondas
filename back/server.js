@@ -80,7 +80,11 @@ function verificarToken(req, res, next) {
 app.post("/login", (req, res) => {
     const { email, senha } = req.body;
 
-    const query = "SELECT id_cliente, senha_hash FROM Cliente WHERE email_cliente = ?";
+    const query = `
+        SELECT id_cliente, senha_hash, permissao
+        FROM vw_clientes_ativos
+        WHERE email_cliente = ?
+    `;
     conexao.query(query, [email], (err, results) => {
         if (err) {
             console.error("Erro ao buscar cliente:", err);
@@ -103,8 +107,8 @@ app.post("/login", (req, res) => {
                 return res.status(401).json({ autenticado: false, mensagem: "Senha incorreta" });
             }
 
-            const token = jwt.sign({ id: cliente.id_cliente }, SEGREDO, { expiresIn: 1000 });
-            return res.status(200).json({ autenticado: true, token: token, idCliente: cliente.id_cliente });
+            const token = jwt.sign({ id: cliente.id_cliente }, SEGREDO, { expiresIn: 100000 });
+            return res.status(200).json({ autenticado: true, token: token, idCliente: cliente.id_cliente, permissao: cliente.permissao });
         });
     });
 });
@@ -114,6 +118,7 @@ app.post("/login", (req, res) => {
 // Rota para inclusão de novos serviços
 
 app.post("/servicos", (req, resp) => {
+    let tipo_id = req.body.tipo_id;
     let tit = req.body.tit;
     let desc = req.body.desc;
     let img = req.body.img;
@@ -123,8 +128,8 @@ app.post("/servicos", (req, resp) => {
     let flag = true;
 
     conexao.query(
-        `CALL sp_ins_servico(?, ?, ?, ?, ?, ?, ?, @id, @mensagem)`, 
-        [tit, desc, img, url, ordem, atv, flag], (erro, linha) => {
+        `CALL sp_ins_servico(?, ?, ?, ?, ?, ?, ?, ?, @id, @mensagem)`, 
+        [tipo_id, tit, desc, img, url, ordem, atv, flag], (erro, linha) => {
             if(erro) {
                 console.log(erro);
                 resp.send('problema ao inserir serviço');
@@ -153,7 +158,7 @@ app.get("/servicos", (req, res) => {
 
 // get serviços para o formulário
 
-app.get("/servicos/:id", (req, res) => {
+app.get("/servicos/:id", verificarToken, (req, res) => {
     let id_servico = req.params.id;
     conexao.promise().query(`
         SELECT *
@@ -176,12 +181,7 @@ app.get("/servicos/:id", (req, res) => {
 
 app.get("/admServicos", (req, res) => {
     conexao.query(`
-        SELECT id_servico,
-               titulo_servico,
-               desc_servico,
-               img_servico,
-               url_servico,
-               ativo
+        SELECT *
         FROM servico
         ORDER BY ordem_apresentacao
     `, (err, rows) => {
@@ -197,11 +197,11 @@ app.get("/admServicos", (req, res) => {
 // Rota de update serviço
 
 app.put('/servicos', (req, res) => {
-    let { id_servico, tit, desc, url, img, ordem, ativo, oper } = req.body;
+    let { id_servico, tipo_id, tit, desc, url, img, ordem, ativo, oper } = req.body;
 
     conexao.query(`
-        CALL SP_up_servico(?, ?, ?, ?, ?, ?, ?, ?, @mensagem)
-    `, [id_servico, tit, desc, img, url, ordem, ativo, oper], (err, result) => {
+        CALL SP_up_servico(?, ?, ?, ?, ?, ?, ?, ?, ?, @mensagem)
+    `, [id_servico, tipo_id, tit, desc, img, url, ordem, ativo, oper], (err, result) => {
         if (err) {
             console.error("Erro ao atualizar serviço:", err);
             res.status(500).send('Problema ao atualizar serviço');
@@ -242,8 +242,8 @@ app.post("/marcas", (req, resp) => {
 app.get("/marcas", (req, res) => {
     conexao.query(`SELECT * FROM vw_marcas_ativas`, (err, rows) => {
         if (err) {
-            console.error('Erro ao buscar serviços:', err);
-            res.status(500).json({ error: 'Erro ao buscar serviços.' });
+            console.error('Erro ao buscar marcas:', err);
+            res.status(500).json({ error: 'Erro ao buscar marcas.' });
             return;
         }
         res.json(rows);
@@ -268,6 +268,8 @@ app.get("/admMarcas", (req, res) => {
         }
     });
 });
+
+
 
 // Rota de update marca
 
@@ -511,11 +513,11 @@ app.put('/produtos', (req, res) => {
         atv,
         oper], (err, result) => {
         if (err) {
-            console.error("Erro ao atualizar modelo:", err);
-            res.status(500).send('Problema ao atualizar modelo');
+            console.error("Erro ao atualizar produto:", err);
+            res.status(500).send('Problema ao atualizar produto');
         } else {
-            console.log("Modelo atualizado:", result);
-            res.status(200).send('modelo atualizado com sucesso');
+            console.log("produto atualizado:", result);
+            res.status(200).send('produto atualizado com sucesso');
         }
     });
 });
@@ -593,27 +595,29 @@ app.put('/contatos', (req, res) => {
 
 // rota para post de chamados
 
-app.post("/chamados", (req, resp) => {
+app.post("/chamados", verificarToken, (req, resp) => {
     let id_cliente = req.body.id_cliente;
     let desc_chamado = req.body.desc_chamado;
-    let tipo_equipamento = req.body.tipo_equipamento;
+    let tipo_desc = req.body.tipo_desc;
     let nr_serie = null; 
     let capacidade = null;
     let marca = req.body.marca;
-    let modelo = req.body.modelo;
-    let status = "Aberto";
+    let modelo = null;
+    let status = "Aberta";
+    let entrega = req.body.entrega;
     let ativo = true;
 
     conexao.query(
-        `CALL SP_Ins_chamado(?, ?, ?, ?, ?,?, ?, ?, ?, @p_id_chamado, @p_mensagem)`, 
+        `CALL SP_Ins_chamado(?, ?, ?, ?, ?, ?,?, ?, ?, ?, @p_id_chamado, @p_mensagem)`, 
         [id_cliente,
         desc_chamado,
-        tipo_equipamento,
+        tipo_desc,
         nr_serie,
         capacidade,
         marca,
         modelo,
         status,
+        entrega,
         ativo], (erro, linha) => {
             if(erro) {
                 console.log(erro);
@@ -633,8 +637,9 @@ app.post("/chamados", (req, resp) => {
 
 app.get("/admChamados", (req, res) => {
     conexao.query(`
-        SELECT *
-        FROM Chamado
+        SELECT c.*, tp.desc_tipo
+        FROM Chamado c
+        JOIN TipoProduto tp ON c.id_tipo = tp.id_tipo
     `, (err, rows) => {
         if (err) {
             console.error("Erro ao buscar chamado:", err);
@@ -650,25 +655,27 @@ app.get("/admChamados", (req, res) => {
 app.put('/chamados', (req, res) => {
     let {id_chamado,
         desc_chamado,
-        tipo_equipamento,
+        tipo_desc,
         nr_serie,
         capacidade,
         marca,
         modelo,
         status,
+        entrega,
         ativo,
         oper } = req.body;
 
     conexao.query(`
-        CALL SP_up_chamado(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, @mensagem)
+        CALL SP_up_chamado(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, @mensagem)
     `, [id_chamado,
         desc_chamado,
-        tipo_equipamento,
+        tipo_desc,
         nr_serie,
         capacidade,
         marca,
         modelo,
         status,
+        entrega,
         ativo,
         oper], (err, result) => {
         if (err) {
@@ -683,7 +690,7 @@ app.put('/chamados', (req, res) => {
 
 //rota post para entrega
 
-app.post("/entregas", (req, resp) => {
+app.post("/entregas", verificarToken, (req, resp) => {
     let id_chamado = req.body.id_chamado;
     let id_cliente = req.body.id_cliente;
     let stat = "aberta";
@@ -748,7 +755,7 @@ app.put('/entregas', (req, res) => {
 //rota post para cadastro (inserir clientes)
 
 app.post("/clientes", (req, resp) => {
-    console.log("Dados recebidos do front-end:", req.body);
+    //console.log("Dados recebidos do front-end:", req.body);
     const {
         nome,
         endereco,
@@ -793,57 +800,20 @@ app.post("/clientes", (req, resp) => {
 
 // rota get adm clientes
 
-app.get("/admClientes", (req, res) => {
+app.get("/admCliente", (req, res) => {
     conexao.query(`
-        SELECT c.id_cliente, c.nome_cliente, c.status, c.endereco_cliente, c.fone_cliente, c.email_cliente, c.permissao, c.atv, c.dt_cadastro,
-               ch.id_chamado, ch.desc_chamado, ch.tipo_equipamento, ch.marca, ch.modelo, ch.status_chamado, ch.ativo, ch.dt_chamado
-        FROM Cliente c
-        LEFT JOIN Chamado ch ON c.id_cliente = ch.id_cliente
+        SELECT *
+        FROM Cliente
     `, (err, rows) => {
         if (err) {
-            console.error("Erro ao buscar cliente e chamados:", err);
-            res.status(500).json({ error: "Erro interno ao buscar cliente e chamados" });
+            console.error("Erro ao buscar clientes:", err);
+            res.status(500).json({ error: "Erro interno ao buscar clientes" });
         } else {
-            // Organizar os dados para agrupar os chamados por cliente
-            const clientesComChamados = {};
-            rows.forEach(row => {
-                if (!clientesComChamados[row.id_cliente]) {
-                    // Inicializa o objeto do cliente se ainda não existe
-                    clientesComChamados[row.id_cliente] = {
-                        id_cliente: row.id_cliente,
-                        nome_cliente: row.nome_cliente,
-                        status: row.status,
-                        endereco_cliente: row.endereco_cliente,
-                        fone_cliente: row.fone_cliente,
-                        email_cliente: row.email_cliente,
-                        permissao: row.permissao,
-                        atv: row.atv,
-                        dt_cadastro: row.dt_cadastro,
-                        chamados: []
-                    };
-                }
-                // Adiciona o chamado ao array de chamados do cliente
-                if (row.id_chamado) {
-                    clientesComChamados[row.id_cliente].chamados.push({
-                        id_chamado: row.id_chamado,
-                        desc_chamado: row.desc_chamado,
-                        tipo_equipamento: row.tipo_equipamento,
-                        marca: row.marca,
-                        modelo: row.modelo,
-                        status_chamado: row.status_chamado,
-                        ativo: row.ativo,
-                        dt_chamado: row.dt_chamado
-                    });
-                }
-            });
-
-            // Converte o objeto para um array de clientes
-            const clientesArray = Object.values(clientesComChamados);
-
-            res.json(clientesArray); // Retorna os dados como JSON
+            res.json(rows); // Retorna os dados como JSON
         }
     });
 });
+
 
 // rota get formulario clientes
 app.get("/cliente/:idCliente", verificarToken, (req, res) => {
@@ -966,35 +936,37 @@ app.put('/cliente/:idCliente', verificarToken, (req, res) => {
 // rota para put de cadastro(editar cliente)
 
 app.put('/clientes', (req, res) => {
-    let {id_cliente,
+    let {
+        id_cliente,
         nome,
         stat,
         endereco,
         fone,
         email,
-        senha,
         permissao,
         ativo,
-        oper} = req.body;
+        oper
+    } = req.body;
 
     conexao.query(`
-        CALL SP_up_cliente(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, @p_retorno_mensagem)
-    `, [id_cliente,
+        CALL SP_up_cliente(?, ?, ?, ?, ?, ?, ?, ?, ?, @p_retorno_mensagem)
+    `, [
+        id_cliente,
         nome,
         stat,
         endereco,
         fone,
         email,
-        senha,
         permissao,
         ativo,
-        oper], (err, result) => {
+        oper
+    ], (err, result) => {
         if (err) {
             console.error("Erro ao atualizar cliente:", err);
             res.status(500).send('Problema ao atualizar cliente');
         } else {
-            console.log("cliente atualizado:", result);
-            res.status(200).send('cliente atualizado com sucesso');
+            console.log("Cliente atualizado:", result);
+            res.status(200).send('Cliente atualizado com sucesso');
         }
     });
 });

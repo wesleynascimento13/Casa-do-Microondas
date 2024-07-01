@@ -3,8 +3,9 @@ export const isUserLoggedIn = () => {
     return !!token; 
   };
 
-export function logout() {
-  localStorage.removeItem('token');
-  localStorage.removeItem('idCliente');
-  window.location.href = '/login'; // Redireciona para a página de login
-}
+  export function logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('idCliente');
+    localStorage.removeItem('permissao');
+    window.location.href = '/'; // Redireciona para a página inicial
+  }

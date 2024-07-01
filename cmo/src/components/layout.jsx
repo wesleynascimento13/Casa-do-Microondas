@@ -10,11 +10,18 @@ function Layout({ children }) {
 
   return (
     <>
-      <Header marca="Casa do Microondas" 
+      <Header 
+      
+      marca="Casa do Microondas" 
+      logo_cmo={require("../Imagens/logo.jpg")}
+      
       inicio_btn="/"
       servicos_btn="pag_servicos"
+
       pag_cadastro="cadastro"
       pag_conta_cliente="conta-cliente"
+      pag_login="login"
+      gestao_adm="gestao-adm"
       />
       <main>{children}</main>
       <Footer marca="Casa do Microondas" />

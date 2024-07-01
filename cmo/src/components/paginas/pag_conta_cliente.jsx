@@ -14,7 +14,7 @@ function ContaCliente() {
 
     useEffect(() => {
         if (!isUserLoggedIn()) {
-            navigate('/login');
+            navigate('/cadastro');
         } else {
             fetchCliente();
         }
@@ -142,23 +142,31 @@ function ContaCliente() {
                         </div>
                         <div className="form-group">
                             <label htmlFor="status">Status de Serviços Abertos:</label>
-                            <input type="text" id="status" disabled value={cliente.status_chamado_ativo} />
+                            <ul>
+                                {cliente.status_chamado_ativo.split(';').map((status, index) => (
+                                    <li key={index}>{status.trim()}</li>
+                                ))}
+                            </ul>
                         </div>
                         <div className="form-group">
                             <label htmlFor="history">Histórico de Serviços:</label>
-                            <textarea id="history" rows="4" disabled value={cliente.historico_chamados}></textarea>
+                            <ul>
+                                {cliente.historico_chamados.split('; ').map((chamado, index) => (
+                                    <li key={index}>{chamado.trim()}</li>
+                                ))}
+                            </ul>
                         </div>
                     </div>
-                    <div className="acesso-conta-header">
+                    <div >
                         {!isEditing ? (
-                            <button id="btnEdit" onClick={handleEdit}>Editar Informações</button>
+                            <button id="btnEdit" onClick={handleEdit} className='button'>Editar Informações</button>
                         ) : (
-                            <button id="btnSave" onClick={handleSave}>Salvar Informações</button>
+                            <button id="btnSave" onClick={handleSave} className='button'>Salvar Informações</button>
                         )}
                         {isEditing && (
-                            <button id="btnDelete" onClick={handleDeleteAccount}>Excluir Conta</button>
+                            <button id="btnDelete" onClick={handleDeleteAccount} className='button'>Excluir Conta</button>
                         )}
-                        <button id="btnLogout" onClick={handleLogout}>Sair da Conta</button>
+                        <button id="btnLogout" onClick={handleLogout} className='button'>Sair da Conta</button>
                     </div>
                 </div>
             )}

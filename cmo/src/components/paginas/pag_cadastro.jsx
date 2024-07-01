@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import api from '../../api/api';
 import '../../styles/styles.css';
 
@@ -8,6 +9,7 @@ function Cadastro(e) {
   const [endereco, setEndereco] = useState('');
   const [fone, setFone] = useState('');
   const [senha, setSenha] = useState('');
+  const navigate = useNavigate();
 
   const btnCadastrarClick = async (e) => {
     e.preventDefault();
@@ -17,7 +19,7 @@ function Cadastro(e) {
     try {
       const resp = await api.post('/clientes', { nome, email, fone, endereco, senha, permissao });
       console.log(resp.data);
-      alert('Os dados foram enviados com sucesso');
+      alert('Cadastro bem sucedido!');
 
       // Limpar os campos após o cadastro ser concluído
       setNome('');
@@ -25,6 +27,9 @@ function Cadastro(e) {
       setEndereco('');
       setFone('');
       setSenha('');
+
+      navigate('/login');
+
     } catch (err) {
       console.error(err);
       alert('Erro ao enviar os dados de cadastro');

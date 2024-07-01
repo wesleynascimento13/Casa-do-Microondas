@@ -1,30 +1,39 @@
-import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import api from '../../api/api';
 import '../../styles/styles.css';
-
 
 function Login() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [mensagemErro, setMensagemErro] = useState('');
   const [modalMessage, setModalMessage] = useState('');
-
   const navigate = useNavigate();
+
+  // Verifica se o cliente já está logado
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      navigate('/conta-cliente');
+    }
+  }, [navigate]);
+
   const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
       const resp = await api.post('/login', { email, senha });
-      const { autenticado, token, idCliente } = resp.data;
-
+      const { autenticado, token, idCliente, permissao } = resp.data; 
+      console.log("permissao:", permissao)
+      
       if (autenticado) {
         localStorage.setItem('token', token);
-        localStorage.setItem('idCliente', idCliente);  // Armazenar o id
+        localStorage.setItem('idCliente', idCliente);
+        localStorage.setItem('permissao', permissao); // Armazena a permissão
         setModalMessage('Login realizado com sucesso!');
         setTimeout(() => {
           setModalMessage('');
-          navigate('/conta-cliente'); 
+          navigate('/conta-cliente'); // Navega para a conta do cliente
         }, 2000);
       } else {
         setMensagemErro('Email ou senha inválidos');
