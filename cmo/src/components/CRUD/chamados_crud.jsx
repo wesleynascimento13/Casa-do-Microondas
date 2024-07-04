@@ -11,18 +11,19 @@ function ChamadosCrud() {
     const [tiposProduto, setTiposProduto] = useState([]);
     const [clientes, setClientes] = useState([]);
     const [editandoChamado, setEditandoChamado] = useState(null);
+    const [chamadoIdToDelete, setchamadoIdToDelete] = useState(null);
 
     const [showModal, setShowModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [formData, setFormData] = useState({
-        id_chamado: '',
+        id_chamado: 1,
         desc_chamado: '',
         tipo_desc: '',
         nr_serie: '',
         capacidade: '',
         marca: '',
-        modelo: '',
-        status: '',
+        status: 'Aberta',
         entrega: false,
         ativo: false,
         oper: 'u'
@@ -81,11 +82,16 @@ function ChamadosCrud() {
     };
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
+        const { name, value, type, checked } = e.target;
         setFormData({
             ...formData,
-            [name]: value
+            [name]: type === 'checkbox' ? checked : value
         });
+    };
+
+    const getClientNameById = (id_cliente) => {
+        const cliente = clientes.find(cliente => cliente.id_cliente === id_cliente);
+        return cliente ? `${id_cliente} - ${cliente.nome_cliente}` : id_cliente;
     };
 
 // post
@@ -95,9 +101,17 @@ function ChamadosCrud() {
     };
 
     const handleSalvarChamado = async () => {
+      // Verificar se todos os campos estão preenchidos
+      for (const key in formData) {
+        if (formData[key] === '' || formData[key] === null) {
+          alert('Por favor, preencha todos os campos.');
+          return;
+        }
+      }
+
         try {
             const token = localStorage.getItem('token'); // Exemplo: Recupere o token de onde você o armazenou
-            const response = await api.post('/chamados', formData, {
+            const response = await api.post('/admchamados', formData, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -124,23 +138,33 @@ function ChamadosCrud() {
 
     const handleCancelarClick = () => {
         setShowModal(false); // Fecha o modal ao clicar em "Cancelar"
+        setFormData({
+            id_cliente: '',
+            desc_chamado: '',
+            tipo_desc: '',
+            marca: '',
+            entrega: false,
+        });
     };
 
     // put
 
     const handleEditClick = (chamado) => {
-        console.log(formData)
+        // Obter a descrição do tipo de produto correspondente ao id_tipo
+        const tipoProduto = tiposProduto.find(tipo => tipo.id_tipo === chamado.id_tipo);
+
+     
         // Preencher o formulário com os dados do chamado selecionado
         setFormData({
             desc_chamado: chamado.desc_chamado,
-            tipo_desc: chamado.tipo_desc || '',
+            tipo_desc: tipoProduto ? tipoProduto.desc_tipo : '',
             nr_serie: formData.nr_serie || chamado.nr_serie || '',
             capacidade: formData.capacidade || chamado.capacidade || '',
             marca: chamado.marca || '',
             modelo: null,
             status: chamado.status_chamado,
             entrega: chamado.entrega,
-            ativo: 1,
+            ativo: chamado.ativo,
             oper: "u"
         });
         setEditandoChamado(chamado.id_chamado); // Armazenar o ID do chamado sendo editado
@@ -163,6 +187,16 @@ function ChamadosCrud() {
             alert('Chamado atualizado com sucesso!');
             setShowEditModal(false);
             fetchChamados();
+
+            setFormData({
+                id_cliente: '',
+                desc_chamado: '',
+                tipo_desc: '',
+                marca: '',
+                entrega: false,
+            });
+            
+
         } catch (err) {
             console.error("Erro ao atualizar chamado:", err);
             alert('Erro ao atualizar chamado. Verifique os dados e tente novamente.');
@@ -171,7 +205,41 @@ function ChamadosCrud() {
 
     const handleCloseModal = () => {
         setShowEditModal(false); // Fechar o modal ao clicar em Cancelar
+        setFormData({
+            id_cliente: '',
+            desc_chamado: '',
+            tipo_desc: '',
+            marca: '',
+            entrega: false,
+        });
     };
+
+    // DELETE
+
+    const handleExcluirChamado = (id) => {
+        setchamadoIdToDelete(id);
+        setShowDeleteModal(true); 
+    };
+
+    const confirmarExclusao = async () => {
+        try {
+            await api.put(`/chamados`, {
+                id_chamado: chamadoIdToDelete,
+                oper: 'd'
+            });
+            console.log('chamado excluído com sucesso');
+            setShowDeleteModal(false); 
+            fetchChamados(); 
+        } catch (error) {
+            console.error('Erro ao excluir chamado:', error);
+            alert('Erro ao excluir chamado. Verifique e tente novamente.');
+        }
+    };
+
+    const cancelarExclusao = () => {
+        setShowDeleteModal(false); // Fechar modal de confirmação de exclusão
+    };
+
 
     return (
         <div className="adm_container">
@@ -199,9 +267,10 @@ function ChamadosCrud() {
                     </thead>
                     <tbody>
                         {Chamados.map(chamado => (
+                            
                             <tr key={chamado.id_chamado}>
                                 <td>{chamado.id_chamado}</td>
-                                <td>{chamado.id_cliente}</td>
+                                <td>{getClientNameById(chamado.id_cliente)}</td>
                                 <td>{chamado.desc_chamado}</td>
                                 <td>{chamado.desc_tipo}</td>
                                 <td>{chamado.id_produto}</td>
@@ -212,7 +281,7 @@ function ChamadosCrud() {
                                 <td>{new Date(chamado.dt_chamado).toLocaleDateString()}</td>
                                 <td>
                                     <button className="adm_edit_btn" onClick={() => handleEditClick(chamado)}>Editar</button>
-                                    <button className="adm_delete_btn">Excluir</button>
+                                    <button className="adm_delete_btn" onClick={() => handleExcluirChamado(chamado.id_chamado)}>Excluir</button>
                                 </td>
                             </tr>
                         ))}
@@ -245,6 +314,10 @@ function ChamadosCrud() {
                                     </option>
                                 ))}
                             </select>
+                            <label htmlFor="nr_serie">N Série:</label>
+                            <input type="text" id="nr_serie" name="nr_serie" checked={formData.nr_serie} onChange={handleChange} />
+                            <label htmlFor="capacidade">Capacidade:</label>
+                            <input type="text" id="capacidade" name="capacidade" checked={formData.capacidade} onChange={handleChange} />
                             <label htmlFor="marca">Marca:</label>
                             <select id="marca" name="marca" className="chamados-input" value={formData.marca} onChange={handleChange} required>
                                 <option value="">Selecione uma marca</option>
@@ -273,7 +346,7 @@ function ChamadosCrud() {
                             <input type="text" id="desc_chamado" name="desc_chamado" value={formData.desc_chamado} onChange={handleChange} required />
 
                             <label htmlFor="tipo_desc">Tipo de Produto:</label>
-                            <select id="tipo_desc" name="tipo_desc" className="chamados-input" value={formData.id_tipo} onChange={handleChange} required>
+                            <select id="tipo_desc" name="tipo_desc" className="chamados-input" value={formData.tipo_desc} onChange={handleChange} required>
                                 <option value="">Selecione um tipo de produto</option>
                                 {tiposProduto.map(tipo => (
                                     <option key={tipo.id_tipo} value={tipo.desc_tipo}>
@@ -298,12 +371,28 @@ function ChamadosCrud() {
                             <label htmlFor="entrega">Entrega:</label>
                             <input type="checkbox" id="entrega" name="entrega" checked={formData.entrega} onChange={handleChange} />
 
+                            <label htmlFor="ativo">Ativo:</label>
+                            <input type="checkbox" id="ativo" name="ativo" checked={formData.ativo} onChange={handleChange} />
+
 
                             <div className="modal-buttons">
                                 <button type="button" onClick={handleUpdateChamado}>Salvar</button>
                                 <button type="button" onClick={handleCloseModal}>Cancelar</button>
                             </div>
                         </form>
+                    </div>
+                </div>
+            )}
+            {showDeleteModal && (
+                <div className="modal">
+                    {/* Modal de Confirmação de Exclusão */}
+                    <div className="modal-content">
+                        <h2>Confirmar Exclusão</h2>
+                        <p>Deseja realmente excluir o chamado {chamadoIdToDelete}?</p>
+                        <div className="modal-buttons">
+                            <button type="button" onClick={confirmarExclusao}>Excluir</button>
+                            <button type="button" onClick={cancelarExclusao}>Cancelar</button>
+                        </div>
                     </div>
                 </div>
             )}

@@ -37,20 +37,21 @@ function Servicos() {
     return (
         <div id='servicos'>
             <h1 className='centralizado'>Serviços Disponíveis</h1>
+            <img src="/Imagens/retangulo_laranja.png" alt="retangulo laranja" width="75" height="4" class="imagem-centralizada"></img>
             {!isLoaded && <div className="placeholder"></div>} {/* Div invisível */}
             <div className={`fade-in ${isLoaded ? 'show' : ''}`}>
                 <ul className='product-container'>
                     {servicos.map(servico => (
                         <li key={servico.id_servico} onClick={() => handleServiceClick(servico.id_servico)} className="servico1-container service-image ">
                             <div >
-                            <img src={require("../../Imagens/Imagem de fundo serviços.png")} alt="conserto de microondas" className=" servico1-image"></img>
-                            <img src={require("../../Imagens/servico1.png")} alt="conserto de microondas" width="192" height="108" className='servico1'></img>
-                                <div className='service'>                         
+                            <img src={process.env.PUBLIC_URL + "/Imagens/Imagem de fundo serviços.png"} alt="conserto de microondas" className="servico1-image" />
+                            <img src={process.env.PUBLIC_URL + `/Imagens/${servico.img_servico}`} alt={servico.titulo_servico} width="192" height="108" className="second-image" />
+                                <div>                         
                                    
                                    {/* {servico.img_servico && <img src={require(`.${servico.img_servico}`).default} alt={servico.titulo_servico} class="second-image" width="192" height="108"/>}*/}
                                 
-                                    <h3 servico1-text_1>{servico.titulo_servico}</h3>
-                                    <p servico1-text_2>{servico.desc_servico}</p>  
+                                    <h2 servico1-text_1 className='servico1-text_1'>{servico.titulo_servico}</h2>
+                                    <p servico1-text_2 className='servico1-text_2'>{servico.desc_servico}</p>  
                                 </div>
                             </div>
                         </li>

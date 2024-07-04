@@ -1,7 +1,7 @@
 import React from 'react';
 import { logout } from '../../utils/loginout';
 import '../../styles/styles.css';
-import consertoEm30MinImg from '../../Imagens/conserto_em_30_min.png';
+
 
 function Conserto30Minutos(props) {
     return (
@@ -33,7 +33,27 @@ function Conserto30Minutos(props) {
       </ul>
       <p className="conserto-em-30-min-text">Contamos com sua compreensão.</p>
       <p className="conserto-em-30-min-footer">Casa do Microondas</p>
+
+      <button
+      onClick={logout}
+      style={{
+        backgroundColor: 'orangered',
+        borderRadius: '5px',
+        padding: '14px 28px',
+        border: 'none',
+        cursor: 'pointer',
+        color: 'white',
+        textAlign: 'center',
+        textDecoration: 'none',
+        display: 'inline-block',
+        fontSize: '14px'
+      }}
+    >
+      Logout
+    </button>
+
     </div>
+      
       
       
     );

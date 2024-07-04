@@ -107,7 +107,7 @@ app.post("/login", (req, res) => {
                 return res.status(401).json({ autenticado: false, mensagem: "Senha incorreta" });
             }
 
-            const token = jwt.sign({ id: cliente.id_cliente }, SEGREDO, { expiresIn: 100000 });
+            const token = jwt.sign({ id: cliente.id_cliente }, SEGREDO, { expiresIn: 10000000000});
             return res.status(200).json({ autenticado: true, token: token, idCliente: cliente.id_cliente, permissao: cliente.permissao });
         });
     });
@@ -122,10 +122,10 @@ app.post("/servicos", (req, resp) => {
     let tit = req.body.tit;
     let desc = req.body.desc;
     let img = req.body.img;
-    let url = req.body.url; 
-    let ordem = req.body.ordem;
+    let url = null; 
+    let ordem = null;
     let atv = true;
-    let flag = true;
+    let flag = null;
 
     conexao.query(
         `CALL sp_ins_servico(?, ?, ?, ?, ?, ?, ?, ?, @id, @mensagem)`, 
@@ -197,7 +197,7 @@ app.get("/admServicos", (req, res) => {
 // Rota de update serviço
 
 app.put('/servicos', (req, res) => {
-    let { id_servico, tipo_id, tit, desc, url, img, ordem, ativo, oper } = req.body;
+    let { id_servico, tipo_id, tit, desc, url = null, img, ordem = null, ativo, oper } = req.body;
 
     conexao.query(`
         CALL SP_up_servico(?, ?, ?, ?, ?, ?, ?, ?, ?, @mensagem)
@@ -216,14 +216,14 @@ app.put('/servicos', (req, res) => {
 // Rota para inclusão de novas marcas
 
 app.post("/marcas", (req, resp) => {
-    let descricao = req.body.descricao;
-    let url = req.body.url;
+    let tit = req.body.tit;
+    let url = null;
     let logo = req.body.logo;
     let flag = true;
 
     conexao.query(
         `CALL SP_Ins_Marca(?, ?, ?, ?, @id, @mensagem)`, 
-        [descricao, url, logo, flag], (erro, linha) => {
+        [tit, url, logo, flag], (erro, linha) => {
             if(erro) {
                 console.log(erro);
                 resp.send('problema ao inserir marca');
@@ -254,10 +254,7 @@ app.get("/marcas", (req, res) => {
 
 app.get("/admMarcas", (req, res) => {
     conexao.query(`
-       SELECT id_marca,
-            desc_marca,
-            logo_marca,
-            url_marca
+       SELECT *
         FROM marca
     `, (err, rows) => {
         if (err) {
@@ -276,7 +273,7 @@ app.get("/admMarcas", (req, res) => {
 app.put('/marcas', (req, res) => {
     let { id,
         tit,
-        url,
+        url = null,
         logo,
         flag,
         oper } = req.body;
@@ -298,12 +295,12 @@ app.put('/marcas', (req, res) => {
 // Rota para inclusão de novos tipos produto
 
 app.post("/tipoProduto", (req, resp) => {
-    let p_desc_tipo = req.body.p_desc_tipo;
-    let flag = true;
+    let tit = req.body.tit;
+    let ativo = true;
 
     conexao.query(
         `CALL SP_Ins_TipoProduto(?, ?, @p_id_tipo, @p_mensagem)`, 
-        [p_desc_tipo, flag], (erro, linha) => {
+        [tit, ativo], (erro, linha) => {
             if(erro) {
                 console.log(erro);
                 resp.send('Problema ao inserir tipo de produto');
@@ -321,7 +318,7 @@ app.post("/tipoProduto", (req, resp) => {
 
 app.get("/admTipoProduto", (req, res) => {
     conexao.query(`
-       SELECT id_tipo, desc_tipo
+       SELECT *
         FROM tipoproduto
     `, (err, rows) => {
         if (err) {
@@ -437,15 +434,16 @@ app.post("/produtos", (req, resp) => {
         id_clien,
         id_tip,
         id_marc,
-        id_model,
+        id_model = null,
         n_serie,
         capac,
-        problem
+        problem,
+        soluc,
         } = req.body;
     let atv = true;
 
     conexao.query(
-        `CALL SP_Ins_produto(?, ?, ?, ?, ?, ?, ?, ?, ?, @id_prod, @mensagem)`, 
+        `CALL SP_Ins_produto(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, @id_prod, @mensagem)`, 
         [tit,
         id_clien,
         id_tip,
@@ -454,6 +452,7 @@ app.post("/produtos", (req, resp) => {
         n_serie,
         capac,
         problem,
+        soluc,
         atv], (erro, linha) => {
             if(erro) {
                 console.log(erro);
@@ -496,11 +495,12 @@ app.put('/produtos', (req, res) => {
         n_serie,
         capac,
         problem,
+        soluc,
         atv,
         oper } = req.body;
 
     conexao.query(`
-        CALL SP_up_produto(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, @mensagem)
+        CALL SP_up_produto(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, @mensagem)
     `, [id,
         tit,
         id_clien,
@@ -510,6 +510,7 @@ app.put('/produtos', (req, res) => {
         n_serie,
         capac,
         problem,
+        soluc,
         atv,
         oper], (err, result) => {
         if (err) {
@@ -524,17 +525,17 @@ app.put('/produtos', (req, res) => {
 
 // rota para post de contato
 
-app.post("/contatos", (req, resp) => {
+app.post("/contatos", verificarToken, (req, resp) => {
     let {id_clien,
         assunto,
-        p_mensagem,
+        mensagem,
         } = req.body;
 
     conexao.query(
         `CALL SP_Ins_contato(?, ?, ?, @p_id_contat, @mensagem)`, 
         [id_clien,
         assunto,
-        p_mensagem,], (erro, linha) => {
+        mensagem,], (erro, linha) => {
             if(erro) {
                 console.log(erro);
                 resp.send('Problema ao inserir contato');
@@ -631,6 +632,46 @@ app.post("/chamados", verificarToken, (req, resp) => {
         });
     
 });
+
+// rota para post de chamados de adm
+
+app.post("/admchamados", verificarToken, (req, resp) => {
+    let id_cliente = req.body.id_cliente;
+    let desc_chamado = req.body.desc_chamado;
+    let tipo_desc = req.body.tipo_desc;
+    let nr_serie = req.body.nr_serie;
+    let capacidade = req.body.capacidade;
+    let marca = req.body.marca;
+    let modelo = null;
+    let status = "Aberta";
+    let entrega = req.body.entrega;
+    let ativo = true;
+
+    conexao.query(
+        `CALL SP_Ins_chamado(?, ?, ?, ?, ?, ?,?, ?, ?, ?, @p_id_chamado, @p_mensagem)`, 
+        [id_cliente,
+        desc_chamado,
+        tipo_desc,
+        nr_serie,
+        capacidade,
+        marca,
+        modelo,
+        status,
+        entrega,
+        ativo], (erro, linha) => {
+            if(erro) {
+                console.log(erro);
+                resp.send('Problema ao inserir chamado');
+            }
+            else {
+                console.log(linha);
+                resp.send('chamado inserido!');
+            }
+            
+        });
+    
+});
+
 
 
 // rota get adm chamado
@@ -732,15 +773,17 @@ app.get("/admEntregas", (req, res) => {
 // rota para update de entrega
 
 app.put('/entregas', (req, res) => {
-    let {id_entr,
+    let {id_entrega,
         endereco,
-        stat} = req.body;
+        status,
+        oper} = req.body;
 
     conexao.query(`
-        CALL SP_up_entrega(?, ?, ?, @p_retorno_mensagem)
-    `, [id_entr,
+        CALL SP_up_entrega(?, ?, ?, ?, @p_retorno_mensagem)
+    `, [id_entrega,
         endereco,
-        stat], (err, result) => {
+        status,
+        oper], (err, result) => {
         if (err) {
             console.error("Erro ao atualizar entrega:", err);
             res.status(500).send('Problema ao atualizar entregao');

@@ -18,20 +18,33 @@ function Inicio(props) {
                 <span className="highlight-text"><strong>{props.marca}</strong></span><br />
                 <img src={props.url2} alt="imagem preta" width="75" height="4" style={{ marginBottom: '50px', marginTop: '20px' }} /><br />
                 {/* redes sociais */}
-                <div className="link_transparente redes-sociais">
-                    <Link to={props.instagram_url} className="social-icon">
-                        <img src={props.instagram_img} alt="icone instagram" className="icone" />
-                    </Link>
-                    <Link to={props.facebook_url} className="social-icon">
-                        <img src={props.facebook_img} alt="icone facebook" className="icone" />
-                    </Link>
-                    <Link to={props.whatsapp_url} className="social-icon">
-                        <img src={props.whatsapp_img} alt="icone whatsapp" className="icone" />
-                    </Link>
+                <div className="link_transparente">
+                    <div>
+                        <a href={props.instagram_url} target="_blank">
+                            
+                                <img src={props.instagram_img} alt="icone instagram" className="icone"  />
+                            
+                        </a>
+                   
+                        <a href={props.facebook_url} target="_blank">
+                            
+                                <img src={props.facebook_img} alt="icone facebook" className="icone"  />
+                            
+                        </a>
+                    
+                        <a href={props.whatsapp_url} target="_blank">
+                        
+                                <img src={props.whatsapp_img} alt="icone whatsapp preto" className="icone"  />
+                            
+                        </a>
+                    </div>
                 </div>
+                <div>
                 {/* Frase inicial da loja */}
                 <p className="tamanho_fonte_1" style={{ marginBottom: '-30px' }}><strong>{props.descricao}</strong></p><br />
+                </div>
                 {/* Botão */}
+
                 <div className="container-botão">
                     <div className="center">
                         <Link to={props.href1}>

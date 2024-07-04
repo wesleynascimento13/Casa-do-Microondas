@@ -559,14 +559,8 @@ button[type="submit"]:hover {
 }
 
 .container-botão {
-    width: 400px;
-    height: 400px;
-    position: absolute;
-    left: 50%;
-    top: 120%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    justify-content: center;
+    position: relative;
+    left: 22%;
     align-items: center;
     
   }
@@ -674,6 +668,7 @@ button[type="submit"]:hover {
 
 .icone {
     transition: transform 0.3s ease-in-out;
+    
   }
   
   .button {
@@ -729,13 +724,11 @@ button[type="submit"]:hover {
 }
 
 .servico1-text_1 {
-    position: absolute;
-    top: 60%;
-    left: 50%;
+    position: relative;
+    margin-top: 70%;
     transform: translate(-50%, -50%);
     color: black;
-    font-size: 24px;
-    text-align: center;
+    justify-content: center;
     font-family: Arial, sans-serif;
     font-weight: bold;
   
@@ -743,13 +736,11 @@ button[type="submit"]:hover {
 }
 
 .servico1-text_2 {
-    position: absolute;
-    top:75%;
-    left: 50%;
+    position: relative;
+    margin-top: 100%;
     transform: translate(-50%, -50%);
     color: black;
-    font-size: 18px;
-    text-align: center;
+    justify-content: center;
     
   
 }
@@ -760,8 +751,8 @@ button[type="submit"]:hover {
     left:17%;
     width: 230px; /* Ajuste para corresponder ao tamanho original */
     height: 220px; /* Ajuste para corresponder ao tamanho original */
-  border-radius: 3px;
-  border-radius: 80%;
+    border-radius: 3px;
+    border-radius: 80%;
 }
 
 
@@ -1197,6 +1188,10 @@ li.conserto30minutos {
 
 .link_transparente a {
     color: transparent; /* Altere para a cor desejada */
+    justify-content: space-around; /* Distribui os itens com espaço ao redor */
+    align-items: center; /* Alinha os itens verticalmente ao centro */
+    gap: 20px; /* Espaçamento entre os itens */
+    padding: 10px;
 }
 
 .icone {
@@ -1228,15 +1223,12 @@ li.conserto30minutos {
     width: 360px;
     height: 454px;
     border: 1px solid #ccc; /* Apenas para visualização */
-    
-    
+    margin: 50px;
 }
 
 .servico1-image {
     width: 100%;
-    height: 100%;
-   
-    
+    height: 100%;  
 }
 
 .servico1-text_1 {

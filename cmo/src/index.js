@@ -14,7 +14,14 @@ import Login from './components/paginas/pag_login.jsx';
 import GestaoADM from './components/paginas/gestao_adm.jsx';
 import UsuariosCrud from './components/CRUD/usuarios_crud.jsx';
 import ChamadosCrud from './components/CRUD/chamados_crud.jsx';
+import ProdutosCrud from './components/CRUD/produtos_crud.jsx';
+import TipoProdutoCrud from './components/CRUD/tipo_produto_crud.jsx';
+import ServicosCrud from './components/CRUD/servicos_crud.jsx';
+import MarcasCrud from './components/CRUD/marcas_crud.jsx';
+import ContatoCrud from './components/CRUD/contato_crud.jsx';
+import EntregasCrud from './components/CRUD/entregas_crud.jsx';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { AuthProvider } from './AuthContext.jsx';
 
 
 // componentização
@@ -22,6 +29,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <Router>
+      <AuthProvider>
     
       <Routes>
         
@@ -32,7 +40,7 @@ root.render(
                 fundo_celular={require('./Imagens/Logo celular.png')}
                 url2={require('./Imagens/imagem_preta.png')}
                 marca="Casa do Microondas"
-                descricao="Ateder bem para antender sempre!"
+                descricao="Atender bem para atender sempre!"
                 botao_inicio_1="Conserto em 30 Minutos"
                 href1="conserto-30-minutos"
                 instagram_url="https://www.instagram.com/casadomicroondascwb?igsh=MWEybGhiaWpxeHl5ZA=="
@@ -79,6 +87,13 @@ root.render(
             <GestaoADM
               usuarios_link="/usuarios-crud"
               chamados_link="/chamados-crud"
+              produtos_link="/produtos-crud"
+              tipoproduto_link="/tipoproduto-crud"
+              servicos_link="/servicos-crud"
+              marcas_link="/marcas-crud"
+              contato_link="/contato-crud"
+              entregas_link="/entregas-crud"
+
             />
           </Layout>} />
 
@@ -99,7 +114,32 @@ root.render(
           <Route path="chamados-crud" element={
           <Layout> 
             <ChamadosCrud />
-          </Layout> } />   
+          </Layout> } />
+          <Route path="produtos-crud" element={
+          <Layout> 
+            <ProdutosCrud />
+          </Layout> } />
+          <Route path="tipoproduto-crud" element={
+          <Layout> 
+            <TipoProdutoCrud />
+          </Layout> } />
+          <Route path="servicos-crud" element={
+          <Layout> 
+            <ServicosCrud />
+          </Layout> } />
+          <Route path="marcas-crud" element={
+          <Layout> 
+            <MarcasCrud />
+          </Layout> } />
+          <Route path="contato-crud" element={
+          <Layout> 
+            <ContatoCrud />
+          </Layout> } />
+          <Route path="entregas-crud" element={
+          <Layout> 
+            <EntregasCrud />
+          </Layout> } />
+          
 
         <Route path="conserto-30-minutos" element={
           <Layout> 
@@ -111,7 +151,7 @@ root.render(
           <Chamado />
         </Layout> } />
       </Routes>
-   
+      </AuthProvider>
     </Router>
 );
 

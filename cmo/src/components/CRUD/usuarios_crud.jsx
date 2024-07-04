@@ -4,12 +4,13 @@ import api from '../../api/api';
 import '../../styles/styles.css';
 
 function UsuariosCrud() {
+    
     const navigate = useNavigate();
     const [clientes, setClientes] = useState([]);
     const [erro, setErro] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [ShowEditModal, setShowEditModal] = useState(false);
-    const [showDeleteModal, setShowDeleteModal] = useState(false); // Estado para controlar o modal de exclusão
+    const [showDeleteModal, setShowDeleteModal] = useState(false); 
     const [clienteIdToDelete, setClienteIdToDelete] = useState(null);
     const [clienteId, setClienteId] = useState(null);
     const [nome, setNome] = useState('');
@@ -38,6 +39,8 @@ function UsuariosCrud() {
             setErro("Erro ao buscar clientes. Tente novamente mais tarde.");
         }
     };
+
+    // post
 
     const handleAdicionarClick = () => {
         setShowModal(true); // Mostra o modal ao clicar em "Adicionar"
@@ -74,7 +77,14 @@ function UsuariosCrud() {
     };
 
     const handleCancelarClick = () => {
-        setShowModal(false); // Fecha o modal ao clicar em "Cancelar"
+        setShowModal(false);
+
+        setNome('');
+        setEndereco('');
+        setFone('');
+        setEmail('');
+        setSenha('');
+        setPermissao('');
     };
 
     // edição de usuario
@@ -111,6 +121,14 @@ function UsuariosCrud() {
             alert('Cliente atualizado com sucesso!');
             setShowEditModal(false); // Fechar o modal de edição
             fetchClientes(); // Atualizar a lista de clientes após edição
+
+            setNome('');
+            setEndereco('');
+            setFone('');
+            setEmail('');
+            setSenha('');
+            setPermissao('');
+
         } catch (err) {
             console.error(err);
             alert('Erro ao atualizar cliente. Verifique os dados e tente novamente.');
@@ -119,7 +137,13 @@ function UsuariosCrud() {
 
     const handleCancelarEdicao = () => {
         setShowEditModal(false); // Fechar o modal de edição
-        // Limpar os campos do formulário de edição, se necessário
+        
+        setNome('');
+        setEndereco('');
+        setFone('');
+        setEmail('');
+        setSenha('');
+        setPermissao('');
     };
     
     // exclusão de usuario
