@@ -54,8 +54,8 @@ function Contato(props) {
 
   return (
     <section id="contato">
-      <div className="container_2">
-        <h2>Entre em Contato</h2>
+      <div >
+        <h2 className='centralizado'>Entre em Contato</h2>
         <img
           src={props.img_fundo}
           alt="retangulo laranja"
@@ -66,7 +66,7 @@ function Contato(props) {
         <br />
         <div id="form-container">
           <form id="contact-form" onSubmit={handleSubmit}>
-            <div className="form-group">
+            <div className="assunto">
               <label htmlFor="assunto">Assunto</label>
               <input
                 type="text"
@@ -75,11 +75,11 @@ function Contato(props) {
                 value={assunto}
                 onChange={(e) => setAssunto(e.target.value)}
                 required
-                style={{ width: '100%', padding: '10px', borderRadius: '5px' }}
+             
               />
             </div>
-
-            <div className="form-group">
+           
+            <div className="mensagem" >
               <label htmlFor="mensagem">Mensagem</label>
               <textarea
                 id="mensagem"
@@ -88,12 +88,13 @@ function Contato(props) {
                 value={mensagem}
                 onChange={(e) => setMensagem(e.target.value)}
                 required
-                style={{ width: '100%', padding: '10px', borderRadius: '5px' }}
+              
               ></textarea>
             </div>
             <button
               type="submit"
-              style={{ color: 'white', fontSize: '14px', backgroundColor: 'orange', padding: '10px 20px', border: 'none', borderRadius: '5px' }}
+              className='butão'
+              style={{ color: 'white', }}
             >
               Enviar
             </button>

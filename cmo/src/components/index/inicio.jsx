@@ -22,7 +22,7 @@ function Inicio(props) {
                     <div>
                         <a href={props.instagram_url} target="_blank">
                             
-                                <img src={props.instagram_img} alt="icone instagram" className="icone"  />
+                                <img src={props.instagram_img} alt="icone instagram" className="icone"   />
                             
                         </a>
                    
